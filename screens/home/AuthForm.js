@@ -27,6 +27,8 @@ class AuthForm extends React.Component {
     const {email, password} = this.state;
     const {SignUp, SignIn, errors} = this.props;
 
+    console.log(errors);
+
     return [
       <View key='AuthForm' style={styles.authForm}>
         <Button title='Sign Up' onPress={() => SignUp({email, password})}/>

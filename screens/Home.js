@@ -1,13 +1,14 @@
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, Platform, View, Text } from 'react-native';
+import { Padding } from '../utils/elements';
 import AuthForm from './home/AuthForm';
 
 const styles = StyleSheet.create({
-  centered: {justifyContent: 'center', alignItems: 'center'},
-  home: {flex: 1},
+  home: {flex: 1, justifyContent: 'center', alignItems: 'center'},
 });
 
 export default () => [
+  <Padding />,
   <AuthForm key='AuthForm'/>,
   <View key='Home' style={styles.home}>
     <Text>Page</Text>

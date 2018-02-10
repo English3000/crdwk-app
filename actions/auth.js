@@ -13,9 +13,8 @@ export const receiveErrors = errors => ({
 });
 
 export const signUp = credentials => dispatch => Api.signUp(credentials).then(
-  user => dispatch(receiveCurrentUser(user.data)),
-  err => { console.log(err, Api.HOST);
-    dispatch(receiveErrors(err.response.data));
+  user => dispatch(receiveCurrentUser(user.json())),
+  err => { dispatch(receiveErrors(err.response.data));
            return err.response.data; }
 );
 
