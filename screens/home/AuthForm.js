@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Dimensions, StyleSheet, View, Button, TextInput, Text } from 'react-native';
+import { Dimensions, StyleSheet, View, Button, TextInput, AsyncStorage, Text } from 'react-native';
 import { signUp, signIn } from '../../actions/auth';
+import { CURRENT_USER } from '../../App';
 
 const mapStateToProps = ({ errors }) => ({ errors });
 
@@ -27,8 +28,6 @@ class AuthForm extends React.Component {
     const {email, password} = this.state;
     const {SignUp, SignIn, errors} = this.props;
 
-    console.log(errors);
-
     return [
       <View key='AuthForm' style={styles.authForm}>
         <Button title='Sign Up' onPress={() => SignUp({email, password})}/>
@@ -40,7 +39,7 @@ class AuthForm extends React.Component {
                      onChange={event => this.setState({password: event.target.value})}
                      style={styles.textInput}/>
         </View>
-        <Button title='Sign In' onPress={() => SignIn({email, password})}/>
+        <Button title='Sign In' onPress={() => SignIn({email, password}).then(user => AsyncStorage.setItem(CURRENT_USER, user))}/>
       </View>,
       errors.map(err => <Text key={err} style={{textAlign: 'center', width: 300}}>
                           {`${err}.`}

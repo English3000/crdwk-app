@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Platform, View, Text } from 'react-native';
-import { Padding } from '../utils/elements';
+import { Padding, ErrorBoundary } from '../utils/elements';
 import AuthForm from './home/AuthForm';
 
 const styles = StyleSheet.create({
@@ -8,9 +8,13 @@ const styles = StyleSheet.create({
 });
 
 export default () => [
-  <Padding />,
-  <AuthForm key='AuthForm'/>,
+  <Padding key='Padding'/>,
+
+  <ErrorBoundary>
+    <AuthForm key='AuthForm'/>
+  </ErrorBoundary>,
+  // PLACEHOLDER
   <View key='Home' style={styles.home}>
     <Text>Page</Text>
-  </View> //placeholder
+  </View>
 ];

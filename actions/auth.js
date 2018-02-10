@@ -13,7 +13,7 @@ export const receiveErrors = errors => ({
 });
 
 export const signUp = credentials => dispatch => Api.signUp(credentials).then(
-  user => dispatch(receiveCurrentUser(user.json())),
+  user => dispatch(receiveCurrentUser(user.data)),
   err => { dispatch(receiveErrors(err.response.data));
            return err.response.data; }
 );
