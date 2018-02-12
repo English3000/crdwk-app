@@ -4,7 +4,7 @@ import { Font } from 'expo';
 import { View, TouchableOpacity } from 'react-native';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 import { signOut } from '../../actions/auth';
-import styles from '../utils/styles';
+import styles from '../../utils/styles';
 
 const mapDispatchToProps = dispatch => ({
   SignOut: user => dispatch(signOut(user))
@@ -18,7 +18,7 @@ class Nav extends React.Component {
 
   async componentDidMount() {
     await Font.loadAsync({
-      'FontAwesome': require('../assets/fonts/FontAwesome.otf'),
+      'FontAwesome': require('../../assets/fonts/FontAwesome.otf'),
     });
 
     this.setState({ fontLoaded: true });

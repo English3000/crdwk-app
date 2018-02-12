@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { StyleSheet, View, Button, TextInput, AsyncStorage, Text } from 'react-native';
-import { width } from '../Home';
+import { Dimensions, StyleSheet, View, Button, TextInput, AsyncStorage, Text } from 'react-native';
 import { signUp, signIn } from '../../actions/auth';
 import { CURRENT_USER } from '../../App';
 
@@ -12,10 +11,14 @@ const mapDispatchToProps = dispatch => ({
   SignIn: user => dispatch(signIn(user))
 });
 
+const { width } = Dimensions.get('window');
+
 const custom = StyleSheet.create({
-  authForm: {width: width * 0.9, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'},
+  authForm: { width: width * 0.925, flexDirection: 'row', alignItems: 'center',
+              justifyContent: 'space-between' },
   textInput: {width: width * 0.5},
-  error: {textAlign: 'center', width: 300},
+  errors: {marginVertical: 12.5},
+  err: {textAlign: 'center', width: width * 0.925},
 });
 
 class AuthForm extends React.Component {
@@ -41,9 +44,10 @@ class AuthForm extends React.Component {
         </View>
         <Button title='Sign In' onPress={() => SignIn({email, password}).then(user => AsyncStorage.setItem(CURRENT_USER, user))}/>
       </View>,
-      errors.map(err => <Text key={err} style={custom.error}>
-                          {`${err}.`}
-                        </Text>)
+      errors.length > 0 ?
+        <View key='Errors' style={custom.errors}>{errors.map(
+          err => <Text key={err} style={custom.err}>{`${err}.`}</Text>
+        )}</View> : null
     ];
   }
 }

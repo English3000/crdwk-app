@@ -1,9 +1,7 @@
 import React from 'react';
-import { Dimensions, View, Text } from 'react-native';
+import { View, Text } from 'react-native';
 import Header from './auth/Header';
 import styles from '../utils/styles';
-
-export const { width, height } = Dimensions.get('window');
 
 export default () => [
   <Header key='Header'/>,

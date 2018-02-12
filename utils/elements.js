@@ -1,6 +1,7 @@
 import React from 'react';
-import { StyleSheet, Platform, View, Text } from 'react-native';
-import { height } from '../screens/Home';
+import { Dimensions, StyleSheet, Platform, View, Text } from 'react-native';
+
+export const { height } = Dimensions.get('window');
 
 const custom = StyleSheet.create({
   padding: {paddingTop: height * 0.05},
