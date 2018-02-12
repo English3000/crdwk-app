@@ -1,14 +1,13 @@
 import React from 'react';
-import { Dimensions, StyleSheet, Platform, View, Text } from 'react-native';
+import { StyleSheet, Platform, View, Text } from 'react-native';
+import { height } from '../screens/Home';
 
-const { width, height } = Dimensions.get('window');
-
-const styles = StyleSheet.create({
+const custom = StyleSheet.create({
   padding: {paddingTop: height * 0.05},
 });
 
 export const Padding = () => Platform.OS === 'android' ?
-                               <View style={styles.padding}></View> : null;
+                               <View style={custom.padding}></View> : null;
 
 export class ErrorBoundary extends React.Component {
   constructor() {

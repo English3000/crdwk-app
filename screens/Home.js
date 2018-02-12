@@ -1,20 +1,13 @@
 import React from 'react';
-import { StyleSheet, Platform, View, Text } from 'react-native';
-import { Padding, ErrorBoundary } from '../utils/elements';
-import AuthForm from './home/AuthForm';
+import { Dimensions, View, Text } from 'react-native';
+import Header from './auth/Header';
+import styles from '../utils/styles';
 
-const styles = StyleSheet.create({
-  home: {flex: 1, justifyContent: 'center', alignItems: 'center'},
-});
+export const { width, height } = Dimensions.get('window');
 
 export default () => [
-  <Padding key='Padding'/>,
-
-  <ErrorBoundary>
-    <AuthForm key='AuthForm'/>
-  </ErrorBoundary>,
-  // PLACEHOLDER
-  <View key='Home' style={styles.home}>
-    <Text>Page</Text>
+  <Header key='Header'/>,
+  <View key='Home' style={styles.centered}>
+    <Text>Home Page</Text>
   </View>
 ];

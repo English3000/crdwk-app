@@ -22,8 +22,10 @@
   "dependencies": {
     "axios": "^0.17.1",
     "expo": "^25.0.0",
+    "lodash": "^4.17.5",
     "react": "16.2.0",
     "react-native": "0.52.0",
+    "react-native-fontawesome": "^5.7.0",
     "react-redux": "^5.0.6",
     "react-router-native": "^4.2.0",
     "redux": "^3.7.2",

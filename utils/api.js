@@ -1,11 +1,14 @@
 import axios from 'axios';
 
-const HOST = '192.168.3.166:3000'; //problem w/ IP address--works on a/A network
+const PORT = ':3000';
 
+const HOST = `192.168.3.166${PORT}`;
+//problem w/ apt wifi--works on a/A network
 export const signUp = user => axios.post(`http://${HOST}/api/users`, {user});//.catch(err => handleError(err));
 export const signIn = user => axios.post(`http://${HOST}/api/session`, {user});//.catch(err => handleError(err));
 export const signOut = () => axios.delete(`http://${HOST}/api/session`);
 
+export const visitProfile = id => axios.get(`http://${HOST}/users/${id}`);
 
 // export const signUp = user => fetch(`http://${HOST}/api/users`, {
 //   method: 'POST',

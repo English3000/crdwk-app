@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Dimensions, StyleSheet, View, Button, TextInput, AsyncStorage, Text } from 'react-native';
+import { StyleSheet, View, Button, TextInput, AsyncStorage, Text } from 'react-native';
+import { width } from '../Home';
 import { signUp, signIn } from '../../actions/auth';
 import { CURRENT_USER } from '../../App';
 
@@ -11,11 +12,10 @@ const mapDispatchToProps = dispatch => ({
   SignIn: user => dispatch(signIn(user))
 });
 
-const { width, height } = Dimensions.get('window');
-
-const styles = StyleSheet.create({
+const custom = StyleSheet.create({
   authForm: {width: width * 0.9, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'},
   textInput: {width: width * 0.5},
+  error: {textAlign: 'center', width: 300},
 });
 
 class AuthForm extends React.Component {
@@ -29,19 +29,19 @@ class AuthForm extends React.Component {
     const {SignUp, SignIn, errors} = this.props;
 
     return [
-      <View key='AuthForm' style={styles.authForm}>
+      <View key='AuthForm' style={custom.authForm}>
         <Button title='Sign Up' onPress={() => SignUp({email, password})}/>
         <View>
           <TextInput placeholder='Email' defaultValue={email} autoFocus
                      onChange={event => this.setState({email: event.target.value})}
-                     style={styles.textInput}/>
+                     style={custom.textInput}/>
           <TextInput placeholder='Password' defaultValue={password}
                      onChange={event => this.setState({password: event.target.value})}
-                     style={styles.textInput}/>
+                     style={custom.textInput}/>
         </View>
         <Button title='Sign In' onPress={() => SignIn({email, password}).then(user => AsyncStorage.setItem(CURRENT_USER, user))}/>
       </View>,
-      errors.map(err => <Text key={err} style={{textAlign: 'center', width: 300}}>
+      errors.map(err => <Text key={err} style={custom.error}>
                           {`${err}.`}
                         </Text>)
     ];
