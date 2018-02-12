@@ -11,10 +11,14 @@ export default class App extends React.Component {
   constructor() {
     super();
     this.state = {};
-    AsyncStorage.getItem(CURRENT_USER).then(
-      currentUser => { if (currentUser) this.state.session = {currentUser}; },
-      err => { console.log(err); }
-    );
+  }
+
+  async componentWillMount() {
+    await AsyncStorage.getItem(CURRENT_USER).then(session_token => {
+      if (session_token) {
+        this.state.session = {currentUser: {session_token}};
+      }
+    }); //will need to get currentUser by session_token
   }
 
   render() {
