@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Dimensions, StyleSheet, View, TouchableOpacity, TextInput, AsyncStorage, Text } from 'react-native';
 import { signUp, signIn } from '../../actions/auth';
-import { CURRENT_USER } from '../../App';
+import { CURRENT_USER_TOKEN, CURRENT_USER_ID } from '../../App';
 
 const mapStateToProps = ({ errors }) => ({ errors });
 
@@ -41,17 +41,23 @@ class AuthForm extends React.Component {
   constructor() {
     super();
     this.state = {email: '', password: ''};
+    this.setCurrentUser.bind(this);
+  }
+
+  setCurrentUser(session_token, id) {
+    AsyncStorage.setItem(CURRENT_USER_TOKEN, session_token);
+    AsyncStorage.setItem(CURRENT_USER_ID, id); //may need to convert id to String
   }
 
   triangleSignUp(email, password) {
-    this.props.SignUp({email, password}).then( ({session_token}) => {
-      if (session_token) AsyncStorage.setItem(CURRENT_USER, session_token);
+    this.props.SignUp({email, password}).then( ({session_token, id}) => {
+      if (session_token) this.setCurrentUser(session_token, id)
     });
   }
 
   triangleSignIn(email, password) {
-    this.props.SignIn({email, password}).then( ({session_token}) => {
-      if (session_token) AsyncStorage.setItem(CURRENT_USER, session_token);
+    this.props.SignIn({email, password}).then( ({session_token, id}) => {
+      if (session_token) this.setCurrentUser(session_token, id);
     });
   }
 
