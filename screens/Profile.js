@@ -8,7 +8,6 @@ import styles from '../utils/styles';
 
 const mapStateToProps = ({ users }, ownProps) => ({
   user: users[ownProps.match.params.id],
-  pageId: ownProps.match.params.id
 });
 
 const mapDispatchToProps = dispatch => ({

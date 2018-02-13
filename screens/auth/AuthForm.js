@@ -17,7 +17,7 @@ const custom = StyleSheet.create({
   authForm: { width: width * 0.925, flexDirection: 'row', marginVertical: 6.25,
               alignItems: 'center', justifyContent: 'space-between' },
   textInput: { width: width * 0.5, paddingLeft: 7.5, paddingBottom: 4.5, paddingTop: 3,
-               borderStyle: 'solid', borderColor: 'lightgray', borderWidth: 1 },
+               borderStyle: 'solid', borderColor: 'gainsboro', borderWidth: 1.5 },
 
   topRounded: {borderTopLeftRadius: 7.5, borderTopRightRadius: 7.5},
   bottomRounded: {borderBottomLeftRadius: 7.5, borderBottomRightRadius: 7.5},
@@ -25,10 +25,10 @@ const custom = StyleSheet.create({
   button: { width: 0, height: 0, borderStyle: 'solid', padding: 0, margin: 0,
             borderRadius: 0, backgroundColor: 'transparent' },
   signUp: { borderTopWidth: 0, borderRightWidth: 36, borderBottomWidth: 55, borderLeftWidth: 36,
-            borderColor: 'transparent', borderBottomColor: 'lightgray' },
+            borderColor: 'transparent', borderBottomColor: 'gainsboro' },
   signIn: { borderTopWidth: 32, borderRightWidth: 0, borderBottomWidth: 32, borderLeftWidth: 55,
             borderTopColor: 'transparent', borderRightColor: 'transparent',
-            borderBottomColor: 'transparent', borderLeftColor: 'lightgray' },
+            borderBottomColor: 'transparent', borderLeftColor: 'gainsboro' },
   signUpText: {position: 'absolute', marginTop: 17.5, marginLeft: 22.5, textAlign: 'center'},
   signInText: {position: 'absolute', marginTop: 21.25, marginLeft: 2},
 
@@ -56,39 +56,35 @@ class AuthForm extends React.Component {
   handleAuthResponse(response) {
     if (response instanceof Array) {
       Alert.alert('', `${response.join('.\n\n')}.`);
-    } else {
-      AsyncStorage.setItem(CURRENT_USER_TOKEN, response.session_token);
-      AsyncStorage.setItem(CURRENT_USER_ID, response.id); //may need to convert id to String
+    } else { //still need to test whether current user keys persist
+      AsyncStorage.setItem(CURRENT_USER_TOKEN, response.user.session_token);
+      AsyncStorage.setItem(CURRENT_USER_ID, `${response.user.id}`);
     }
   }
 
   render() {
     const {email, password} = this.state;
     const {errors} = this.props;
-    //make Text onPress trigger TouchableOpacity https://facebook.github.io/react-native/docs/direct-manipulation.html
+
     return <View style={custom.authForm}>
-      <View>
-        <TouchableOpacity onPress={() => this.triangleSignUp(email, password)}
-                          style={[custom.button, custom.signUp]}></TouchableOpacity>
-        <Text onPress={() => this.triangleSignUp(email, password)}
-              style={custom.signUpText}>{`Sign\nUp`}</Text>
-      </View>
+      <TouchableOpacity onPress={() => this.triangleSignUp(email, password)}>
+        <TouchableOpacity style={[custom.button, custom.signUp]}></TouchableOpacity>
+        <Text style={custom.signUpText}>{`Sign\nUp`}</Text>
+      </TouchableOpacity>
 
       <View>
         <TextInput placeholder='Email' defaultValue={email} autoFocus
-                   onChange={event => this.setState({email: event.target.value})}
-                   underlineColorAndroid='transparent' style={[custom.textInput, custom.topRounded]}/>
+                   onChangeText={input => this.setState({email: input})}
+                   underlineColorAndroid='transparent' style={[custom.textInput, custom.topRounded, {borderBottomWidth: 1}]}/>
         <TextInput placeholder='Password' defaultValue={password} secureTextEntry={true}
-                   onChange={event => this.setState({password: event.target.value})}
-                   underlineColorAndroid='transparent' style={[custom.textInput, custom.bottomRounded]}/>
+                   onChangeText={input => this.setState({password: input})}
+                   underlineColorAndroid='transparent' style={[custom.textInput, custom.bottomRounded, {borderTopWidth: 1}]}/>
       </View>
 
-      <View>
-        <TouchableOpacity onPress={() => this.triangleSignIn(email, password)}
-                          style={[custom.button, custom.signIn]}></TouchableOpacity>
-        <Text onPress={() => this.triangleSignIn(email, password)}
-              style={custom.signInText}>Sign In</Text>
-      </View>
+      <TouchableOpacity onPress={() => this.triangleSignIn(email, password)}>
+        <TouchableOpacity style={[custom.button, custom.signIn]}></TouchableOpacity>
+        <Text style={custom.signInText}>Sign In</Text>
+      </TouchableOpacity>
     </View>;
   }
 }

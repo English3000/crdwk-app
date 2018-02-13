@@ -24,12 +24,12 @@ class Nav extends React.Component {
     this.setState({ fontLoaded: true });
   }
 
-  render() {
-    return <View style={styles.flexRow}>
+  render() { //need to remove current user keys from AsyncStorage
+    return this.state.fontLoaded ? <View style={styles.flexRow}>
       <TouchableOpacity onPress={this.props.SignOut}>
         <FontAwesome>{Icons.signOut}</FontAwesome>
       </TouchableOpacity>
-    </View>;
+    </View> : null;
   }
 }
 

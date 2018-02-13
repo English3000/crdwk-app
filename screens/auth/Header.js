@@ -16,9 +16,9 @@ const custom = StyleSheet.create({
 
 const Header = ({ currentUser }) => [
   <View key='Padding' style={custom.paddingTop}></View>,
-  currentUser ? <Nav /> :
+  currentUser ? <Nav key='Nav'/> :
   <View key='Auth' style={custom.center}>
-    <Text>Make it happen</Text>
+    <Text>Make it happen.</Text>
     <ErrorBoundary>
       <AuthForm />
     </ErrorBoundary>
