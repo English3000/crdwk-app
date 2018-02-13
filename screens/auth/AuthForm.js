@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Dimensions, StyleSheet, View, TouchableOpacity, TextInput, AsyncStorage, Text } from 'react-native';
+import { Dimensions, StyleSheet, View, TouchableOpacity, TextInput, AsyncStorage, Text, Alert } from 'react-native';
 import { signUp, signIn } from '../../actions/auth';
 import { CURRENT_USER_TOKEN, CURRENT_USER_ID } from '../../App';
 
@@ -36,59 +36,60 @@ const custom = StyleSheet.create({
   err: {textAlign: 'center', width: width * 0.925},
 });
 
-//will need to make custom TriangleButton components
 class AuthForm extends React.Component {
   constructor() {
     super();
     this.state = {email: '', password: ''};
-    this.setCurrentUser.bind(this);
-  }
-
-  setCurrentUser(session_token, id) {
-    AsyncStorage.setItem(CURRENT_USER_TOKEN, session_token);
-    AsyncStorage.setItem(CURRENT_USER_ID, id); //may need to convert id to String
+    this.handleAuthResponse.bind(this);
   }
 
   triangleSignUp(email, password) {
-    this.props.SignUp({email, password}).then( ({session_token, id}) => {
-      if (session_token) this.setCurrentUser(session_token, id)
-    });
+    this.props.SignUp({email, password}).then(
+      response => this.handleAuthResponse(response) );
   }
 
   triangleSignIn(email, password) {
-    this.props.SignIn({email, password}).then( ({session_token, id}) => {
-      if (session_token) this.setCurrentUser(session_token, id);
-    });
+    this.props.SignIn({email, password}).then(
+      response => this.handleAuthResponse(response) );
+  }
+
+  handleAuthResponse(response) {
+    if (response instanceof Array) {
+      Alert.alert('', `${response.join('.\n\n')}.`);
+    } else {
+      AsyncStorage.setItem(CURRENT_USER_TOKEN, response.session_token);
+      AsyncStorage.setItem(CURRENT_USER_ID, response.id); //may need to convert id to String
+    }
   }
 
   render() {
     const {email, password} = this.state;
     const {errors} = this.props;
+    //make Text onPress trigger TouchableOpacity https://facebook.github.io/react-native/docs/direct-manipulation.html
+    return <View style={custom.authForm}>
+      <View>
+        <TouchableOpacity onPress={() => this.triangleSignUp(email, password)}
+                          style={[custom.button, custom.signUp]}></TouchableOpacity>
+        <Text onPress={() => this.triangleSignUp(email, password)}
+              style={custom.signUpText}>{`Sign\nUp`}</Text>
+      </View>
 
-    return [
-      <View key='AuthForm' style={custom.authForm}>
-        <View>
-          <TouchableOpacity style={[custom.button, custom.signUp]} onPress={() => this.triangleSignUp(email, password)}></TouchableOpacity>
-          <Text style={custom.signUpText} onPress={() => this.triangleSignUp(email, password)}>{`Sign\nUp`}</Text>
-        </View>
-        <View>
-          <TextInput placeholder='Email' defaultValue={email} autoFocus
-                     onChange={event => this.setState({email: event.target.value})}
-                     underlineColorAndroid='transparent' style={[custom.textInput, custom.topRounded]}/>
-          <TextInput placeholder='Password' defaultValue={password} secureTextEntry={true}
-                     onChange={event => this.setState({password: event.target.value})}
-                     underlineColorAndroid='transparent' style={[custom.textInput, custom.bottomRounded]}/>
-        </View>
-        <View>
-          <TouchableOpacity style={[custom.button, custom.signIn]} onPress={() => this.triangleSignIn(email, password)}></TouchableOpacity>
-          <Text style={custom.signInText} onPress={() => this.triangleSignIn(email, password)}>Sign In</Text>
-        </View>
-      </View>,
-      errors.length > 0 ?
-        <View key='Errors' style={custom.errors}>{errors.map(
-          err => <Text key={err} style={custom.err}>{`${err}.`}</Text>
-        )}</View> : null
-    ];
+      <View>
+        <TextInput placeholder='Email' defaultValue={email} autoFocus
+                   onChange={event => this.setState({email: event.target.value})}
+                   underlineColorAndroid='transparent' style={[custom.textInput, custom.topRounded]}/>
+        <TextInput placeholder='Password' defaultValue={password} secureTextEntry={true}
+                   onChange={event => this.setState({password: event.target.value})}
+                   underlineColorAndroid='transparent' style={[custom.textInput, custom.bottomRounded]}/>
+      </View>
+
+      <View>
+        <TouchableOpacity onPress={() => this.triangleSignIn(email, password)}
+                          style={[custom.button, custom.signIn]}></TouchableOpacity>
+        <Text onPress={() => this.triangleSignIn(email, password)}
+              style={custom.signInText}>Sign In</Text>
+      </View>
+    </View>;
   }
 }
 
