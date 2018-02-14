@@ -16,7 +16,6 @@ export default class App extends React.Component {
   }
 
   async componentWillMount() {
-    //first check for session_token b/c it's secure
     await SecureStore.getItemAsync(CURRENT_USER_TOKEN).then(
       session_token => SecureStore.getItemAsync(CURRENT_USER_ID).then(
         id => { this.state = {currentUser: {id, session_token}};

@@ -5,6 +5,7 @@ import styles from '../utils/styles';
 
 export default () => [
   <Header key='Header'/>,
+
   <View key='Home' style={styles.centered}>
     <Text>Home Page</Text>
   </View>

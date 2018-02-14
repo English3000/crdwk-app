@@ -57,7 +57,7 @@ class AuthForm extends React.Component {
   handleAuthResponse(response) {
     if (response instanceof Array) {
       Alert.alert('', `${response.join('.\n\n')}.`);
-    } else { //still need to test whether current user keys persist
+    } else { //if no error message, assume persistence for now...
       SecureStore.setItemAsync(CURRENT_USER_TOKEN, response.user.session_token);
       SecureStore.setItemAsync(CURRENT_USER_ID, `${response.user.id}`);
     }

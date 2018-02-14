@@ -1,11 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Font } from 'expo';
-import { View, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, TouchableOpacity } from 'react-native';
+import { Font, SecureStore } from 'expo';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
-import { SecureStore } from 'expo';
 import { signOut } from '../../actions/auth';
-import styles from '../../utils/styles';
 import { CURRENT_USER_TOKEN, CURRENT_USER_ID } from '../../App';
 
 const mapStateToProps = ({ session }) => ({
@@ -16,11 +14,14 @@ const mapDispatchToProps = dispatch => ({
   SignOut: () => dispatch(signOut())
 });
 
+const custom = StyleSheet.create({
+  navStyle: {flexDirection: 'row', justifyContent: 'flex-end', borderBottom: '1px solid black'}
+});
+
 class Nav extends React.Component {
   constructor() {
     super();
     this.state = {fontLoaded: false};
-    // this.handleSignOut.bind(this);
   }
 
   async componentDidMount() {
@@ -38,11 +39,12 @@ class Nav extends React.Component {
   }
 
   render() {
-    return this.state.fontLoaded ? <View style={styles.flexRow}>
-      <TouchableOpacity onPress={() => this.handleSignOut(this.props.SignOut)}>
-        <FontAwesome style={{fontSize: 25}}>{Icons.signOut}</FontAwesome>
-      </TouchableOpacity>
-    </View> : null;
+    return this.state.fontLoaded ?
+      <View style={custom.navStyle}>
+        <TouchableOpacity onPress={() => this.handleSignOut(this.props.SignOut)}>
+          <FontAwesome style={{fontSize: 25}}>{Icons.signOut}</FontAwesome>
+        </TouchableOpacity>
+      </View> : null;
   }
 }
 

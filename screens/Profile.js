@@ -20,8 +20,11 @@ class Profile extends React.Component {
   render() {
     return [
       <Header key='Header'/>,
-      this.props.user ? <Text key='Details'>{this.props.user.email}</Text> :
-                          <Text key='Loading'>loading</Text>,
+
+      this.props.user ? <Text key='Details' style={{backgroundColor: 'ghostwhite'}}>
+        {this.props.user.email}
+      </Text> : <Text key='Loading'>loading</Text>,
+
       <View key='Profile' style={styles.centered}>
         <Text>Profile Page</Text>
       </View>
