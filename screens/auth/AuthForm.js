@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Dimensions, StyleSheet, View, TouchableOpacity, TextInput, AsyncStorage, Text, Alert } from 'react-native';
+import { Dimensions, StyleSheet, View, TouchableOpacity, TextInput, Text, Alert } from 'react-native';
+import { SecureStore } from 'expo';
 import { signUp, signIn } from '../../actions/auth';
 import { CURRENT_USER_TOKEN, CURRENT_USER_ID } from '../../App';
 
@@ -57,8 +58,8 @@ class AuthForm extends React.Component {
     if (response instanceof Array) {
       Alert.alert('', `${response.join('.\n\n')}.`);
     } else { //still need to test whether current user keys persist
-      AsyncStorage.setItem(CURRENT_USER_TOKEN, response.user.session_token);
-      AsyncStorage.setItem(CURRENT_USER_ID, `${response.user.id}`);
+      SecureStore.setItemAsync(CURRENT_USER_TOKEN, response.user.session_token);
+      SecureStore.setItemAsync(CURRENT_USER_ID, `${response.user.id}`);
     }
   }
 
