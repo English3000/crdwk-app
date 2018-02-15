@@ -14,7 +14,7 @@ const { height } = Dimensions.get('window');
 const mapStateToProps = ({ session }) => ({ currentUser: session.currentUser });
 
 const custom = StyleSheet.create({
-  pageStyle: { backgroundColor: 'whitesmoke', height,
+  screenStyle: { backgroundColor: 'whitesmoke', height,
                justifyContent: 'center', alignItems: 'center' },
   paddingTop: {paddingTop: height * 0.05},
 });
@@ -27,17 +27,17 @@ const Screens = ({ currentUser }) => [
     <AuthHeader />
   </ErrorBoundary>,
 
-  <ErrorBoundary key='Nav'>
-    <Nav currentUser={currentUser}/>
-  </ErrorBoundary>,
-
   <ErrorBoundary key='Screen'>
-    <Screen style={custom.pageStyle}>
+    <Screen style={custom.screenStyle}>
       <Switch>
-        <Route exact path='/' component={Home}/>
+        <AuthRoute exact path='/' component={Home}/>
         <Route exact path='/users/:id' component={Profile}/>
       </Switch>
     </Screen>
+  </ErrorBoundary>,
+
+  <ErrorBoundary key='Nav'>
+    <Nav currentUser={currentUser}/>
   </ErrorBoundary>
 ];
 

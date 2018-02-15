@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const PORT = ':3000';
 
-const HOST = `192.168.3.166${PORT}`;
+const HOST = `172.31.114.101${PORT}`;//`192.168.3.166${PORT}`;
 //problem w/ apt wifi--works on a/A network
 export const signUp = user => axios.post(`http://${HOST}/api/users`, {user});//.catch(err => handleError(err));
 export const signIn = user => axios.post(`http://${HOST}/api/session`, {user});//.catch(err => handleError(err));

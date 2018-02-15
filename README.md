@@ -1,1 +1,1 @@
-- [x] User auth. _(needs to be tested)_
+- [x] user auth
