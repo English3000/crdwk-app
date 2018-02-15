@@ -1,5 +1,10 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { View, Text } from 'react-native';
+
+//not sure if `display: 'block'` is valid in React Native
+export const Page = props => <View style={{display: 'block'}} {...props}>
+                              { props.children}
+                             </View>;
 
 export class ErrorBoundary extends React.Component {
   constructor() {

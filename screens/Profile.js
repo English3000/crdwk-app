@@ -1,14 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-native';
-import { visitProfile } from '../actions/visit';
 import { View, Text } from 'react-native';
-import Header from './auth/Header';
-import styles from '../utils/styles';
+import { visitProfile } from '../actions/visit';
 
-const mapStateToProps = ({ users }, ownProps) => ({
-  user: users[ownProps.match.params.id],
-});
+const mapStateToProps = ({ users }, { match }) => {
+  const pageId = match.params.id;
+  return ({user: users[pageId], pageId});
+};
 
 const mapDispatchToProps = dispatch => ({
   VisitProfile: id => dispatch(visitProfile(id)),
@@ -19,15 +18,11 @@ class Profile extends React.Component {
 
   render() {
     return [
-      <Header key='Header'/>,
+      <Text key='Details' style={{fontStyle: 'italic'}}>
+        {this.props.user ? this.props.user.email : ''}
+      </Text>,
 
-      this.props.user ? <Text key='Details' style={{backgroundColor: 'ghostwhite'}}>
-        {this.props.user.email}
-      </Text> : <Text key='Loading'>loading</Text>,
-
-      <View key='Profile' style={styles.centered}>
-        <Text>Profile Page</Text>
-      </View>
+      <Text key='page'>profile page</Text>
     ];
   }
 }

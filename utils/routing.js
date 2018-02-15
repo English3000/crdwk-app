@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect, Route, withRouter } from 'react-router-native';
 
-const mapStateToProps = state => ({
-  currentUser: state.session.currentUser
+const mapStateToProps = ({ session }) => ({
+  currentUser: session.currentUser
 });
 
 // Authentication
