@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-native';
 import { View, Text } from 'react-native';
 import { visitProfile } from '../actions/visit';
 
@@ -19,7 +18,7 @@ class Profile extends React.Component {
   render() {
     return [
       <Text key='Details' style={{fontStyle: 'italic'}}>
-        {this.props.user ? this.props.user.email : ''}
+        {this.props.user ? this.props.user.email : null}
       </Text>,
 
       <Text key='page'>profile page</Text>
@@ -27,6 +26,4 @@ class Profile extends React.Component {
   }
 }
 
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(Profile)
-);
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);

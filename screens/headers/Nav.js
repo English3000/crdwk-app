@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-// import { withRouter, Link } from 'react-router-native';
+// import { Link } from 'react-router-native';
 import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 import { Font, SecureStore } from 'expo';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
@@ -12,8 +12,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const custom = StyleSheet.create({
-  navStyle: { flexDirection: 'row', justifyContent: 'space-between',
-              width: '100%', backgroundColor: 'white' }
+  navStyle: { flexDirection: 'row', justifyContent: 'space-between', width: '100%' }
 });
 
 class Nav extends React.Component {
