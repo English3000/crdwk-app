@@ -1,5 +1,5 @@
 import { RECEIVE_CURRENT_USER } from '../actions/auth';
-import { RECEIVE_USER } from '../actions/visit';
+import { RECEIVE_USER, RECEIVE_USERS } from '../actions/visit';
 import merge from 'lodash/merge';
 
 export default (state = {}, action) => {
@@ -11,6 +11,8 @@ export default (state = {}, action) => {
     case RECEIVE_USER:
       if (action.user) newState[action.user.id] = action.user;
       return newState;
+    case RECEIVE_USERS:
+      return merge({}, newState, action.users);
     default:
       return state;
   }

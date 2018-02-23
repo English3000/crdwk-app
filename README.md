@@ -1,1 +1,2 @@
-- [x] user auth
+- [x] User auth
+- [ ] User search

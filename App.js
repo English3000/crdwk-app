@@ -3,7 +3,7 @@ import { SecureStore } from 'expo';
 import { Provider } from 'react-redux';
 import { NativeRouter } from 'react-router-native';
 import createStore from './store';
-import Screens from './Screens';
+import CRDWK from './CRDWK';
 import { visitProfile } from './actions/visit';
 
 export const CURRENT_USER_TOKEN = 'CURRENT_USER_TOKEN';
@@ -26,7 +26,7 @@ export default class App extends React.Component {
   render() {
     return <Provider store={createStore(this.state)}>
       <NativeRouter>
-        <Screens />
+        <CRDWK />
       </NativeRouter>
     </Provider>;
   }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, Text } from 'react-native';
+import { Text } from 'react-native';
 import { visitProfile } from '../actions/visit';
 
 const mapStateToProps = ({ users }, { match }) => {
@@ -13,12 +13,14 @@ const mapDispatchToProps = dispatch => ({
 });
 
 class Profile extends React.Component {
-  componentWillMount() { this.props.VisitProfile(this.props.pageId); }
+  componentWillMount() { if (!this.props.user) this.props.VisitProfile(this.props.pageId); }
 
   render() {
+    const {user} = this.props;
+
     return [
       <Text key='Details' style={{fontStyle: 'italic'}}>
-        {this.props.user ? this.props.user.email : null}
+        {user ? user.name ? user.name : user.email : null}
       </Text>,
 
       <Text key='page'>profile page</Text>

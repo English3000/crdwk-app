@@ -1,9 +1,11 @@
 import React from 'react';
-import { View, Text } from 'react-native';
-//not sure if `display: 'block'` is valid in React Native
-export const Screen = props => <View style={{display: 'block'}} {...props}>
-                                { props.children}
-                               </View>;
+import { StyleSheet, View, Text } from 'react-native';
+
+export const styles = StyleSheet.create({
+  textInput: { paddingLeft: 7.5, paddingBottom: 4.5, paddingTop: 3, backgroundColor: 'white' },
+});
+
+export const Screen = props => <View {...props}>{ props.children}</View>;
 
 export class ErrorBoundary extends React.Component {
   constructor() {

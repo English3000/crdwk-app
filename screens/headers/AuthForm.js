@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Dimensions, StyleSheet, View, TouchableOpacity, TextInput, Text, Alert } from 'react-native';
+import { styles } from '../../utils/elements';
 import { SecureStore } from 'expo';
-import { signUp, signIn } from '../../actions/auth';
+import { signUp, signIn, RECEIVE_ERRORS } from '../../actions/auth';
 import { CURRENT_USER_TOKEN, CURRENT_USER_ID } from '../../App';
 
 const mapStateToProps = ({ errors }) => ({ errors });
@@ -17,19 +18,19 @@ const { width } = Dimensions.get('window');
 const custom = StyleSheet.create({
   authForm: { width: width * 0.925, flexDirection: 'row', marginVertical: 6.25,
               alignItems: 'center', justifyContent: 'space-between' },
-  textInput: { width: width * 0.5, paddingLeft: 7.5, paddingBottom: 4.5, paddingTop: 3,
-               borderStyle: 'solid', borderColor: 'gainsboro', borderWidth: 1.5 },
 
-  topRounded: {borderTopLeftRadius: 7.5, borderTopRightRadius: 7.5},
-  bottomRounded: {borderBottomLeftRadius: 7.5, borderBottomRightRadius: 7.5},
+  topRounded: { borderTopLeftRadius: 7.5, borderTopRightRadius: 7.5, borderWidth: 1,
+                width: width * 0.5, borderColor: '#ffd24d', borderBottomWidth: 0.5 },
+  bottomRounded: { borderBottomLeftRadius: 7.5, borderBottomRightRadius: 7.5, borderWidth: 1,
+                   width: width * 0.5, borderColor: '#ffd24d', borderTopWidth: 0.5 },
 
   button: { width: 0, height: 0, borderStyle: 'solid', padding: 0, margin: 0,
             borderRadius: 0, backgroundColor: 'transparent' },
   signUp: { borderTopWidth: 0, borderRightWidth: 36, borderBottomWidth: 55, borderLeftWidth: 36,
-            borderColor: 'transparent', borderBottomColor: 'gainsboro' },
+            borderColor: 'transparent', borderBottomColor: '#ffd24d' },
   signIn: { borderTopWidth: 32, borderRightWidth: 0, borderBottomWidth: 32, borderLeftWidth: 55,
             borderTopColor: 'transparent', borderRightColor: 'transparent',
-            borderBottomColor: 'transparent', borderLeftColor: 'gainsboro' },
+            borderBottomColor: 'transparent', borderLeftColor: '#ffd24d' },
   signUpText: {position: 'absolute', marginTop: 17.5, marginLeft: 22.5, textAlign: 'center'},
   signInText: {position: 'absolute', marginTop: 21.25, marginLeft: 2},
 
@@ -46,20 +47,22 @@ class AuthForm extends React.Component {
 
   triangleSignUp(email, password) {
     this.props.SignUp({email, password}).then(
-      response => this.handleAuthResponse(response) );
+      action => this.handleAuthResponse(action) );
   }
 
   triangleSignIn(email, password) {
     this.props.SignIn({email, password}).then(
-      response => this.handleAuthResponse(response) );
+      action => this.handleAuthResponse(action) );
   }
 
-  handleAuthResponse(response) {
-    if (response instanceof Array) {
-      Alert.alert('', `${response.join('.\n\n')}.`);
+  handleAuthResponse(action) {
+    const {errors} = this.props;
+
+    if (action.type === RECEIVE_ERRORS) {
+      Alert.alert('', `${errors.join('.\n\n')}.`);
     } else { //no error message: assume persistence...
-      SecureStore.setItemAsync(CURRENT_USER_TOKEN, response.user.session_token);
-      SecureStore.setItemAsync(CURRENT_USER_ID, `${response.user.id}`);
+      SecureStore.setItemAsync(CURRENT_USER_TOKEN, action.user.session_token);
+      SecureStore.setItemAsync(CURRENT_USER_ID, `${action.user.id}`);
     }
   }
 
@@ -76,10 +79,10 @@ class AuthForm extends React.Component {
       <View>
         <TextInput placeholder='Email' defaultValue={email} autoFocus
                    onChangeText={input => this.setState({email: input})}
-                   underlineColorAndroid='transparent' style={[custom.textInput, custom.topRounded, {borderBottomWidth: 1}]}/>
+                   underlineColorAndroid='transparent' style={[styles.textInput, custom.topRounded]}/>
         <TextInput placeholder='Password' defaultValue={password} secureTextEntry={true}
                    onChangeText={input => this.setState({password: input})}
-                   underlineColorAndroid='transparent' style={[custom.textInput, custom.bottomRounded, {borderTopWidth: 1}]}/>
+                   underlineColorAndroid='transparent' style={[styles.textInput, custom.bottomRounded]}/>
       </View>
 
       <TouchableOpacity onPress={() => this.triangleSignIn(email, password)}>
