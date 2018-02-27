@@ -19,10 +19,12 @@ const custom = StyleSheet.create({
   authForm: { width: width * 0.925, flexDirection: 'row', marginVertical: 6.25,
               alignItems: 'center', justifyContent: 'space-between' },
 
-  topRounded: { borderTopLeftRadius: 7.5, borderTopRightRadius: 7.5, borderWidth: 1,
-                width: width * 0.5, borderColor: '#ffd24d', borderBottomWidth: 0.5 },
-  bottomRounded: { borderBottomLeftRadius: 7.5, borderBottomRightRadius: 7.5, borderWidth: 1,
-                   width: width * 0.5, borderColor: '#ffd24d', borderTopWidth: 0.5 },
+  topRounded: { borderTopLeftRadius: 7.5, borderTopRightRadius: 7.5,
+                borderWidth: 1, borderBottomWidth: 0.5, borderColor: '#ffd24d',
+                height: 32.5, width: width * 0.5 },
+  bottomRounded: { borderBottomLeftRadius: 7.5, borderBottomRightRadius: 7.5,
+                   borderWidth: 1, borderTopWidth: 0.5, borderColor: '#ffd24d', 
+                   height: 32.5, width: width * 0.5 },
 
   button: { width: 0, height: 0, borderStyle: 'solid', padding: 0, margin: 0,
             borderRadius: 0, backgroundColor: 'transparent' },

@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 
 export const styles = StyleSheet.create({
-  textInput: { paddingLeft: 7.5, paddingBottom: 4.5, paddingTop: 3, backgroundColor: 'white' },
+  textInput: { paddingLeft: 10, paddingBottom: 6, paddingTop: 4, backgroundColor: 'white' },
 });
 
 export const Screen = props => <View {...props}>{ props.children}</View>;

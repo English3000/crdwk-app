@@ -26,12 +26,12 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const custom = StyleSheet.create({
-  navStyle: { justifyContent: 'space-between', alignItems: 'flex-end',
-              position: 'absolute', bottom: height * 0.025, width: '100%',
-              marginRight: -10, marginLeft: 10, flexDirection: 'row' },
-  textInputStyle: { paddingRight: 25, borderRadius: 2.5, width: width * 0.5,
-                    shadowColor: '#ffffb3', shadowOpacity: 1, shadowRadius: 1,
-                    shadowOffset: {width: 0, height: 0} }
+  navStyle: { justifyContent: 'space-between', alignItems: 'center',
+              position: 'absolute', bottom: height * 0.015, width: '90%',
+              marginHorizontal: '5%', flexDirection: 'row' },
+  textInputStyle: { paddingRight: 6, paddingLeft: 15, paddingBottom: 9, paddingTop: 6,
+                    borderRadius: 2.5, width: width * 0.885 },
+  connectSym: {fontSize: 32, height: '100%', fontWeight: '600', position: 'relative', top: -2.5}
 });
 
 class CRDWK extends React.Component {
@@ -63,15 +63,28 @@ class CRDWK extends React.Component {
     const homePath = currentUser ? `/users/${currentUser.id}` : '/';
 
     return [
-      <View key='Padding' style={{paddingTop: height * 0.05, backgroundColor: '#ffffb3'}}></View>,
+      <View key='Padding' style={{paddingTop: height * 0.05, backgroundColor: '#ffff99'}}></View>,
 
       <ErrorBoundary key='Header'>
         {currentUser ? currentUser.name ?
           null : <NewUserForm currentUser={currentUser}/> : <AuthHeader />}
+
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <TextInput placeholder='Search for users...'
+                     style={[styles.textInput, custom.textInputStyle]}
+                     onChangeText={search => this.handleSearch(search)}
+                     onFocus={event => this.setState({query: event.nativeEvent.text})}/>
+          {fontLoaded ? location.pathname === homePath ? null :
+          <TouchableOpacity>
+            <Link to={homePath} onPress={() => this.setState({query: ''})}>
+              <FontAwesome style={{color: 'black', fontSize: 25}}>{Icons.home}</FontAwesome>
+            </Link>
+          </TouchableOpacity> : null}
+        </View>
       </ErrorBoundary>,
       // v- add styling -v
       <ErrorBoundary key='Screen'>
-        <Screen style={{height, backgroundColor: '#ffffe6'}}>
+        <Screen style={{height, backgroundColor: '#fff2e6'}}>
           {query === '' || !query || loading && query.length - 1 === 0 ?
           <Switch>
             <AuthRoute exact path='/' component={Home}/>
@@ -89,27 +102,19 @@ class CRDWK extends React.Component {
 
       fontLoaded ? <ErrorBoundary key='Nav'>
         <View style={custom.navStyle}>
-          <View style={{width: 20}}></View>
-
-          <View style={{alignItems: 'center', justifyContent: 'flex-end', flexDirection: 'row'}}>
-            <TextInput placeholder='Search for users...'
-                       style={[styles.textInput, custom.textInputStyle]}
-                       onChangeText={search => this.handleSearch(search)}
-                       onFocus={event => this.setState({query: event.nativeEvent.text})}/>
-            {location.pathname === homePath ? null :
-            <TouchableOpacity>
-              <Link to={homePath} onPress={() => this.setState({query: ''})}
-                    style={{position: 'absolute', marginLeft: -27, marginTop: -13}}>
-                <FontAwesome style={{color: 'black', fontSize: 25}}>{Icons.home}</FontAwesome>
-              </Link>
-            </TouchableOpacity>}
+          <View style={{width: 100, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+          {currentUser && location.pathname[location.pathname.length - 1] !== `${currentUser.id}` ? [
+            <Text key='Connect' style={custom.connectSym}>&infin;</Text>,
+            <FontAwesome key='Chat' style={{fontSize: 25}}>{Icons.comments}</FontAwesome>,
+            <Text key='placeholder' style={{width: 22}}></Text> ] : null}
           </View>
 
-          <View style={{width: 20}}>
-            {currentUser ?
-            <TouchableOpacity onPress={() => this.handleSignOut(SignOut)}>
+          <View style={{width: 100, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>{currentUser ? [
+            <FontAwesome key='MyOrgs' style={{fontSize: 25}}>{Icons.briefcase}</FontAwesome>,
+            <FontAwesome key='NewOrg' style={{fontSize: 25}}>{Icons.sitemap}</FontAwesome>,
+            <TouchableOpacity key='SignOut' onPress={() => this.handleSignOut(SignOut)}>
               <FontAwesome style={{fontSize: 25}}>{Icons.signOut}</FontAwesome>
-            </TouchableOpacity> : null}
+            </TouchableOpacity> ] : null}
           </View>
         </View>
       </ErrorBoundary> : null
